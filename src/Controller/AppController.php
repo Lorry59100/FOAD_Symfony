@@ -2,17 +2,47 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Entity\Questions;
+use App\Form\AskQuestionType;
+use App\Repository\QuestionsRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class AppController extends AbstractController
 {
     #[Route('/', name: 'home')]
-    public function index(): Response
+    public function index(Request $request, EntityManagerInterface $entityManager, QuestionsRepository $questionsRepository): Response
     {
+        /* POSER UNE QUESTION */
+        $question = new Questions();
+        $form = $this->createForm(AskQuestionType::class, $question);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $question->addUser($this->getUser());
+            $entityManager->persist($question);
+            $entityManager->flush();
+        }
+
+        /* LISTE DES QUESTIONS */
+        $questionList = $questionsRepository->findAll();
+
+        /* QUESTIONS DE L'UTILISATEUR */
+        $currentUser = $this->getUser();
+        $userQuestions = [];
+        if ($currentUser) {
+            $userQuestions = $currentUser->getQuestions()->toArray();
+        }
+        
         return $this->render('app/index.html.twig', [
             'controller_name' => 'AppController',
+            'form' => $form->createView(),
+            'questionList' => $questionList,
+            'userQuestions' => $userQuestions,
         ]);
     }
 }
