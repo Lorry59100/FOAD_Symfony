@@ -32,15 +32,21 @@
 <header>
 
   <nav class="navbar" role="navigation">
-    <div class="navbar-logo"><a href="{{path('home')}}" class="logo-container">
-      <h3>Questions/Réponses</h3></a></div>
+    <div class="navbar-logo">
+      <a href="{{path('home')}}" class="logo-container">
+        <h4 class="logo">FOAD</h4>
+      </a>
+    </div>
+    <div class="searchbar-container">
+      <input type="text" name="searchbar" id="searchbar"><i class="fa-solid fa-magnifying-glass"></i></input>
+    </div>
     <ul class="navbar-links">
       {% if app.user is same as null %}
-        <li class="navbar-link"><a href="{{path('registration')}}">Inscription</a></li>
-        <li class="navbar-link"><a href="{{path('app_login')}}">Connexion</a></li>
+        <button><a href="{{path('registration')}}">Inscription</a></button>
+        <button><a href="{{path('app_login')}}">Connexion</a></button>
       {% endif %}
       {% if app.user %}
-      <a class="nav-link" href="{{ path('app_logout') }}">Déconnexion</a>
+      <button><a class="nav-link" href="{{ path('app_logout') }}">Déconnexion</a></button>
       {% endif %}
     </ul>
     <button class="burger">
