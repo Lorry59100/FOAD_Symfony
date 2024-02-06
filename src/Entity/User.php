@@ -42,6 +42,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $avatar = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $Pseudo = null;
+
     public function __construct()
     {
         $this->questions = new ArrayCollection();
@@ -174,6 +177,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setAvatar(?string $avatar): static
     {
         $this->avatar = $avatar;
+
+        return $this;
+    }
+
+    public function getPseudo(): ?string
+    {
+        return $this->Pseudo;
+    }
+
+    public function setPseudo(string $Pseudo): static
+    {
+        $this->Pseudo = $Pseudo;
 
         return $this;
     }
