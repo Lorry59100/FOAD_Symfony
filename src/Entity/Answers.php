@@ -28,6 +28,9 @@ class Answers
     #[ORM\OneToMany(mappedBy: 'answers', targetEntity: Comments::class)]
     private Collection $comments;
 
+    #[ORM\ManyToOne(inversedBy: 'answers')]
+    private ?Questions $questions = null;
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
@@ -116,6 +119,18 @@ class Answers
                 $comment->setAnswers(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getQuestions(): ?Questions
+    {
+        return $this->questions;
+    }
+
+    public function setQuestions(?Questions $questions): static
+    {
+        $this->questions = $questions;
 
         return $this;
     }
