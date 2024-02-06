@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Answers;
 use App\Entity\Questions;
 use App\Form\AskQuestionType;
+use App\Form\AnswerQuestionType;
 use App\Repository\QuestionsRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -43,6 +45,31 @@ class AppController extends AbstractController
             'form' => $form->createView(),
             'questionList' => $questionList,
             'userQuestions' => $userQuestions,
+        ]);
+    }
+
+    /**
+     * @Route("/answer/{id}", name="answer_question")
+     */
+    public function answerQuestion(Request $request, EntityManagerInterface $entityManager, QuestionsRepository $questionsRepository, $id): Response
+    {
+        $question = $questionsRepository->find($id);
+        $answer = new Answers();
+        $form = $this->createForm(AnswerQuestionType::class, $answer);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $answer->setVote(0);
+            $entityManager->persist($answer);
+            $question->addAnswer($answer);
+            $entityManager->persist($question);
+            $entityManager->flush();
+        }
+
+        return $this->render('app/answer_question.html.twig', [
+            'form' => $form->createView(),
+            'question' => $question,
         ]);
     }
 }
