@@ -8,3 +8,7 @@ registration:
     path: /register
     controller: App\Controller\RegistrationController::register
 
+answer_question:
+    path: /answer/{id}
+    controller: App\Controller\AppController::answerQuestion
+
