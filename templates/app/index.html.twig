@@ -25,11 +25,24 @@
           {# LISTE DES QUESTIONS #}
           <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
             <ul>
-                {% for question in questionList %}
-                    <li>{{ question.question }}</li>
-                    {# Ajoutez d'autres champs de question que vous souhaitez afficher #}
-                {% endfor %}
-            </ul>
+              {% for question in questionList %}
+                  <li>
+                      {{ question.question }}
+                      - Posé par
+                      {% if question.users|length > 0 %}
+                          {% for user in question.users %}
+                              {{ user.getPseudo() }}
+                          {% endfor %}
+                      {% else %}
+                          Autheur inconnu
+                      {% endif %}
+
+                      {% if app.user and app.user != question.users.first() %}
+                        <a href="{{ path('answer_question', {'id': question.id}) }}">Répondre</a>
+                      {% endif %}
+                  </li>
+              {% endfor %}
+          </ul>
           </div>
 
           {# QUESTIONS UTILISATEUR #}
