@@ -12,7 +12,10 @@ class AskQuestionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('question');
+        ->add('question', null, [
+            'label' => false,
+            'attr' => ['placeholder' => 'Votre question ici']
+        ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

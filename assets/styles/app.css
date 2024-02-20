@@ -54,6 +54,7 @@ button:hover>a {
   height: 40px;
   background-color: lightgray;
   padding: 0 2em;
+  border-radius: 10px;
 }
 
 .fa-magnifying-glass {
@@ -102,4 +103,36 @@ a:visited {
 
 a {
   text-decoration: none;
+}
+
+/* TAB PANEL */
+
+#v-pills-tab>button {
+  margin: 0.2em 0;
+}
+
+.fa-solid {
+  margin-right: 0.5em;
+}
+
+.tab-panel-container {
+  margin-top: 2em;
+}
+
+.tab-button {
+  border: 1px solid white;
+  color: #11C9C2;
+}
+
+.tab-button:hover {
+  background: linear-gradient(to right,#11C9C2 5%, transparent 10%, transparent 100%);
+  transition: 0.3s ease;
+}
+
+.tab-button.nav-link.active {
+  background-color: #11C9C2;
+}
+
+.tab-content {
+  width: 50%;
 }
